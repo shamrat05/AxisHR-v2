@@ -1672,6 +1672,7 @@ h3 {
   }
 
   .site-nav {
+    display: none;
     position: fixed;
     left: 0;
     right: 0;
@@ -1683,19 +1684,16 @@ h3 {
     -webkit-overflow-scrolling: touch;
     background: rgba(247, 251, 248, 0.99);
     border-bottom: 1px solid var(--line);
-    transform-origin: top;
-    transform: scaleY(0);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
     justify-content: flex-start;
+    align-items: flex-start;
     z-index: 95;
   }
 
   .site-nav.open {
-    transform: scaleY(1);
-    opacity: 1;
-    pointer-events: auto;
+    display: flex;
   }
 
   .nav-list {
@@ -1753,6 +1751,7 @@ h3 {
   }
 
   .site-nav {
+    display: none;
     position: fixed;
     left: 0;
     right: 0;
@@ -1764,18 +1763,15 @@ h3 {
     -webkit-overflow-scrolling: touch;
     background: rgba(247, 251, 248, 0.99);
     border-bottom: 1px solid var(--line);
-    transform-origin: top;
-    transform: scaleY(0);
-    opacity: 0;
-    pointer-events: none;
-    transition: transform 0.2s ease, opacity 0.2s ease;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    align-items: flex-start;
     z-index: 95;
   }
 
   .site-nav.open {
-    transform: scaleY(1);
-    opacity: 1;
-    pointer-events: auto;
+    display: flex;
   }
 
   .nav-list {

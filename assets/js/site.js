@@ -176,10 +176,20 @@
       return;
     }
 
+    const syncMobileNavDisplay = () => {
+      const mobileViewport = window.matchMedia("(max-width: 1120px)").matches;
+      if (!mobileViewport) {
+        siteNav.style.display = "";
+        return;
+      }
+      siteNav.style.display = siteNav.classList.contains("open") ? "flex" : "none";
+    };
+
     const setMenuOpen = (open) => {
       menuToggle.setAttribute("aria-expanded", String(open));
       siteNav.classList.toggle("open", open);
       body.classList.toggle("menu-open", open);
+      syncMobileNavDisplay();
     };
 
     menuToggle.addEventListener("click", () => {
@@ -196,7 +206,9 @@
     window.addEventListener("resize", () => {
       if (window.innerWidth > 1120) {
         setMenuOpen(false);
+        return;
       }
+      syncMobileNavDisplay();
     });
 
     document.addEventListener("keydown", (event) => {
@@ -204,6 +216,8 @@
         setMenuOpen(false);
       }
     });
+
+    syncMobileNavDisplay();
   };
 
   const mountFooter = () => {
