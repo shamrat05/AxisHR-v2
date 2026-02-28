@@ -176,20 +176,24 @@
       return;
     }
 
-    const syncMobileNavDisplay = () => {
-      const mobileViewport = window.matchMedia("(max-width: 1120px)").matches;
+    const applyMobileNavVisibility = (open) => {
+      const mobileViewport = window.innerWidth <= 1120;
       if (!mobileViewport) {
+        siteNav.hidden = false;
         siteNav.style.display = "";
+        body.classList.remove("menu-open");
         return;
       }
-      siteNav.style.display = siteNav.classList.contains("open") ? "flex" : "none";
+
+      siteNav.hidden = !open;
+      siteNav.style.display = open ? "flex" : "none";
     };
 
     const setMenuOpen = (open) => {
       menuToggle.setAttribute("aria-expanded", String(open));
       siteNav.classList.toggle("open", open);
       body.classList.toggle("menu-open", open);
-      syncMobileNavDisplay();
+      applyMobileNavVisibility(open);
     };
 
     menuToggle.addEventListener("click", () => {
@@ -208,7 +212,7 @@
         setMenuOpen(false);
         return;
       }
-      syncMobileNavDisplay();
+      applyMobileNavVisibility(siteNav.classList.contains("open"));
     });
 
     document.addEventListener("keydown", (event) => {
@@ -217,7 +221,7 @@
       }
     });
 
-    syncMobileNavDisplay();
+    applyMobileNavVisibility(false);
   };
 
   const mountFooter = () => {
