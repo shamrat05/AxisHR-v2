@@ -120,6 +120,10 @@ img {
   justify-content: center;
 }
 
+.site-nav[hidden] {
+  display: none !important;
+}
+
 .nav-list {
   display: flex;
   align-items: center;
@@ -1667,18 +1671,21 @@ h3 {
     display: none;
   }
 
+  .site-header {
+    backdrop-filter: none;
+  }
+
   .menu-toggle {
     display: inline-flex;
   }
 
   .site-nav {
-    display: none;
-    position: fixed;
+    display: flex;
+    position: absolute;
     left: 0;
     right: 0;
     top: 74px;
-    bottom: 0;
-    max-height: calc(100dvh - 74px);
+    max-height: calc(100svh - 74px);
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
@@ -1690,10 +1697,6 @@ h3 {
     justify-content: flex-start;
     align-items: flex-start;
     z-index: 95;
-  }
-
-  .site-nav.open {
-    display: flex;
   }
 
   .nav-list {
@@ -1746,18 +1749,21 @@ h3 {
     display: none;
   }
 
+  .site-header {
+    backdrop-filter: none;
+  }
+
   .menu-toggle {
     display: inline-flex;
   }
 
   .site-nav {
-    display: none;
-    position: fixed;
+    display: flex;
+    position: absolute;
     left: 0;
     right: 0;
     top: 74px;
-    bottom: 0;
-    max-height: calc(100dvh - 74px);
+    max-height: calc(100svh - 74px);
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
@@ -1768,10 +1774,6 @@ h3 {
     pointer-events: auto;
     align-items: flex-start;
     z-index: 95;
-  }
-
-  .site-nav.open {
-    display: flex;
   }
 
   .nav-list {

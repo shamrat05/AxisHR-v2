@@ -176,24 +176,14 @@
       return;
     }
 
-    const applyMobileNavVisibility = (open) => {
-      const mobileViewport = window.innerWidth <= 1120;
-      if (!mobileViewport) {
-        siteNav.hidden = false;
-        siteNav.style.display = "";
-        body.classList.remove("menu-open");
-        return;
-      }
-
-      siteNav.hidden = !open;
-      siteNav.style.display = open ? "flex" : "none";
-    };
+    const isMobileViewport = () => window.innerWidth <= 1120;
 
     const setMenuOpen = (open) => {
-      menuToggle.setAttribute("aria-expanded", String(open));
-      siteNav.classList.toggle("open", open);
-      body.classList.toggle("menu-open", open);
-      applyMobileNavVisibility(open);
+      const shouldOpen = isMobileViewport() ? open : false;
+      menuToggle.setAttribute("aria-expanded", String(shouldOpen));
+      siteNav.classList.toggle("open", shouldOpen);
+      siteNav.hidden = isMobileViewport() ? !shouldOpen : false;
+      body.classList.toggle("menu-open", shouldOpen);
     };
 
     menuToggle.addEventListener("click", () => {
@@ -212,7 +202,7 @@
         setMenuOpen(false);
         return;
       }
-      applyMobileNavVisibility(siteNav.classList.contains("open"));
+      siteNav.hidden = !siteNav.classList.contains("open");
     });
 
     document.addEventListener("keydown", (event) => {
@@ -221,7 +211,24 @@
       }
     });
 
-    applyMobileNavVisibility(false);
+    document.addEventListener("click", (event) => {
+      if (!isMobileViewport() || !siteNav.classList.contains("open")) {
+        return;
+      }
+
+      const target = event.target;
+      if (!(target instanceof Node)) {
+        return;
+      }
+
+      if (siteNav.contains(target) || menuToggle.contains(target)) {
+        return;
+      }
+
+      setMenuOpen(false);
+    });
+
+    setMenuOpen(false);
   };
 
   const mountFooter = () => {
