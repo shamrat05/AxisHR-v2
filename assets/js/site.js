@@ -176,17 +176,33 @@
       return;
     }
 
+    const setMenuOpen = (open) => {
+      menuToggle.setAttribute("aria-expanded", String(open));
+      siteNav.classList.toggle("open", open);
+      body.classList.toggle("menu-open", open);
+    };
+
     menuToggle.addEventListener("click", () => {
       const expanded = menuToggle.getAttribute("aria-expanded") === "true";
-      menuToggle.setAttribute("aria-expanded", String(!expanded));
-      siteNav.classList.toggle("open");
+      setMenuOpen(!expanded);
     });
 
     siteNav.querySelectorAll("a").forEach((link) => {
       link.addEventListener("click", () => {
-        siteNav.classList.remove("open");
-        menuToggle.setAttribute("aria-expanded", "false");
+        setMenuOpen(false);
       });
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 1120) {
+        setMenuOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+      }
     });
   };
 
@@ -470,6 +486,7 @@
     const tabsNode = compareWidget.querySelector("[data-vs-tabs]");
     const prevNode = compareWidget.querySelector("[data-vs-prev]");
     const nextNode = compareWidget.querySelector("[data-vs-next]");
+    const swipeTarget = compareWidget.querySelector(".comparison-wrap") || compareWidget;
 
     const competitors = [
       { key: "workday", name: "Workday" },
@@ -594,7 +611,9 @@
 
     let activeIndex = 0;
     let touchStartX = 0;
+    let touchStartY = 0;
     let touchEndX = 0;
+    let touchEndY = 0;
     const tabButtons = [];
 
     const render = () => {
@@ -661,22 +680,39 @@
       }
     });
 
-    compareWidget.addEventListener(
+    swipeTarget.addEventListener(
       "touchstart",
       (event) => {
+        if (!event.changedTouches.length) {
+          return;
+        }
         touchStartX = event.changedTouches[0].clientX;
+        touchStartY = event.changedTouches[0].clientY;
       },
       { passive: true }
     );
 
-    compareWidget.addEventListener(
+    swipeTarget.addEventListener(
       "touchend",
       (event) => {
+        if (!event.changedTouches.length) {
+          return;
+        }
         touchEndX = event.changedTouches[0].clientX;
-        if (touchStartX - touchEndX > 50) {
+        touchEndY = event.changedTouches[0].clientY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const absX = Math.abs(deltaX);
+        const absY = Math.abs(deltaY);
+
+        if (absX < 48 || absX <= absY) {
+          return;
+        }
+
+        if (deltaX < 0) {
           setActive(activeIndex + 1);
         }
-        if (touchEndX - touchStartX > 50) {
+        if (deltaX > 0) {
           setActive(activeIndex - 1);
         }
       },

@@ -34,6 +34,10 @@ body {
   line-height: 1.65;
 }
 
+body.menu-open {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -1668,10 +1672,15 @@ h3 {
   }
 
   .site-nav {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     top: 74px;
+    bottom: 0;
+    max-height: calc(100dvh - 74px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     background: rgba(247, 251, 248, 0.99);
     border-bottom: 1px solid var(--line);
     transform-origin: top;
@@ -1680,6 +1689,7 @@ h3 {
     pointer-events: none;
     transition: transform 0.2s ease, opacity 0.2s ease;
     justify-content: flex-start;
+    z-index: 95;
   }
 
   .site-nav.open {
@@ -1691,6 +1701,7 @@ h3 {
   .nav-list {
     width: min(var(--container), calc(100% - 2.2rem));
     margin: 0.8rem auto 1rem;
+    padding-bottom: 1.1rem;
     flex-direction: column;
     align-items: stretch;
     gap: 0.25rem;
@@ -1742,10 +1753,15 @@ h3 {
   }
 
   .site-nav {
-    position: absolute;
+    position: fixed;
     left: 0;
     right: 0;
     top: 74px;
+    bottom: 0;
+    max-height: calc(100dvh - 74px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     background: rgba(247, 251, 248, 0.99);
     border-bottom: 1px solid var(--line);
     transform-origin: top;
@@ -1753,6 +1769,7 @@ h3 {
     opacity: 0;
     pointer-events: none;
     transition: transform 0.2s ease, opacity 0.2s ease;
+    z-index: 95;
   }
 
   .site-nav.open {
@@ -1764,6 +1781,7 @@ h3 {
   .nav-list {
     width: min(var(--container), calc(100% - 2.2rem));
     margin: 0.8rem auto 1rem;
+    padding-bottom: 1.1rem;
     flex-direction: column;
     align-items: stretch;
     gap: 0.25rem;
@@ -1845,5 +1863,37 @@ h3 {
 
   .compare-directory {
     grid-template-columns: 1fr;
+  }
+
+  .vs-single {
+    touch-action: pan-y;
+  }
+
+  .vs-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.1rem;
+  }
+
+  .vs-tab {
+    flex: 0 0 auto;
+  }
+
+  .comparison-wrap {
+    overflow-x: visible;
+  }
+
+  .one-vs-table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  .one-vs-table th,
+  .one-vs-table td {
+    width: 50%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    font-size: 0.89rem;
   }
 }
